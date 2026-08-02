@@ -38,9 +38,18 @@ jobs:
         run: |
           APP_DIR="${{ inputs.app_path }}"
           if [ -f "$APP_DIR/icon.png" ]; then
-            cd "$APP_DIR"
-            npm i -D @capacitor/assets
-            npx capacitor-assets generate --icon icon.png --android
+            RES="$APP_DIR/android/app/src/main/res"
+            for SIZE in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+              DIR="${SIZE%%:*}"; DIM="${SIZE##*:}"
+              mkdir -p "$RES/mipmap-$DIR"
+              convert "$APP_DIR/icon.png" -resize ${DIM}x${DIM} "$RES/mipmap-$DIR/ic_launcher.png"
+              cp "$RES/mipmap-$DIR/ic_launcher.png" "$RES/mipmap-$DIR/ic_launcher_round.png"
+            done
+            # también el ícono de "adaptive" (fondo + ic_launcher_foreground)
+            mkdir -p "$RES/mipmap-anydpi-v26"
+            if [ -f "$RES/mipmap-anydpi-v26/ic_launcher.xml" ]; then
+              sed -i 's/#00000000/#FFFFFF00/g' "$RES/mipmap-anydpi-v26/ic_launcher.xml" 2>/dev/null || true
+            fi
           fi
 
       - name: Configurar firma en Gradle
