@@ -1,0 +1,7 @@
+{
+  "appId": "com.finalrelease.app",
+  "appName": "FinalRelease",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": { "allowMixedContent": true }
+}
