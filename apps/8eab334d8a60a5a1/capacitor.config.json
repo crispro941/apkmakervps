@@ -1,0 +1,7 @@
+{
+  "appId": "com.finaltest.app",
+  "appName": "FinalTest",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": { "allowMixedContent": true }
+}
