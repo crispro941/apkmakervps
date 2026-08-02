@@ -81,6 +81,8 @@ jobs:
           if 'signingConfigs' not in src:
               src = src.replace('android {', 'android {' + signing, 1)
           src = re.sub(r'buildTypes\s*\{\s*release\s*\{', 'buildTypes {\n        release {\n            signingConfig signingConfigs.release', src, count=1)
+          if 'resolutionStrategy.eachDependency' not in src:
+              src = src.replace('apply plugin:', 'configurations.all {\n    resolutionStrategy.eachDependency { details ->\n        if (details.requested.group == \'org.jetbrains.kotlin\') {\n            details.useVersion \'1.8.22\'\n        }\n    }\n}\napply plugin:', 1)
           with open(path, 'w') as f:
               f.write(src)
           EOF
