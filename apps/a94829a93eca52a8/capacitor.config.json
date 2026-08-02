@@ -1,0 +1,7 @@
+{
+  "appId": "com.radiolabuena.cris",
+  "appName": "Radio La Buena",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": { "allowMixedContent": true }
+}
