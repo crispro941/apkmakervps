@@ -37,6 +37,7 @@ jobs:
       - name: Generar iconos desde logo (si existe)
         run: |
           if [ -f "${{ inputs.app_path }}/icon.png" ]; then
+            python3 -m pip install --quiet Pillow
             APP_PATH="${{ inputs.app_path }}" python3 - <<'PYEOF'
           import os
           app = os.environ['APP_PATH']
