@@ -38,18 +38,22 @@ jobs:
         run: |
           APP_DIR="${{ inputs.app_path }}"
           if [ -f "$APP_DIR/icon.png" ]; then
-            RES="$APP_DIR/android/app/src/main/res"
-            for SIZE in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
-              DIR="${SIZE%%:*}"; DIM="${SIZE##*:}"
-              mkdir -p "$RES/mipmap-$DIR"
-              convert "$APP_DIR/icon.png" -resize ${DIM}x${DIM} "$RES/mipmap-$DIR/ic_launcher.png"
-              cp "$RES/mipmap-$DIR/ic_launcher.png" "$RES/mipmap-$DIR/ic_launcher_round.png"
-            done
-            # también el ícono de "adaptive" (fondo + ic_launcher_foreground)
-            mkdir -p "$RES/mipmap-anydpi-v26"
-            if [ -f "$RES/mipmap-anydpi-v26/ic_launcher.xml" ]; then
-              sed -i 's/#00000000/#FFFFFF00/g' "$RES/mipmap-anydpi-v26/ic_launcher.xml" 2>/dev/null || true
-            fi
+            python3 - <<'EOF'
+          import os
+          app = os.environ['APP_DIR']
+          res = os.path.join(app, 'android', 'app', 'src', 'main', 'res')
+          from PIL import Image
+          img = Image.open(os.path.join(app, 'icon.png')).convert('RGBA')
+          img.thumbnail((192, 192))
+          sizes = {'mdpi': 48, 'hdpi': 72, 'xhdpi': 96, 'xxhdpi': 144, 'xxxhdpi': 192}
+          for d, dim in sizes.items():
+              d2 = os.path.join(res, 'mipmap-' + d)
+              os.makedirs(d2, exist_ok=True)
+              icon = img.resize((dim, dim), Image.LANCZOS)
+              icon.save(os.path.join(d2, 'ic_launcher.png'))
+              icon.save(os.path.join(d2, 'ic_launcher_round.png'))
+          print('iconos generados OK')
+          EOF
           fi
 
       - name: Configurar firma en Gradle
