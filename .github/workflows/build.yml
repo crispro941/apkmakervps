@@ -36,11 +36,10 @@ jobs:
 
       - name: Generar iconos desde logo (si existe)
         run: |
-          APP_DIR="${{ inputs.app_path }}"
-          if [ -f "$APP_DIR/icon.png" ]; then
-            python3 - <<'EOF'
+          if [ -f "${{ inputs.app_path }}/icon.png" ]; then
+            APP_PATH="${{ inputs.app_path }}" python3 - <<'PYEOF'
           import os
-          app = os.environ['APP_DIR']
+          app = os.environ['APP_PATH']
           res = os.path.join(app, 'android', 'app', 'src', 'main', 'res')
           from PIL import Image
           img = Image.open(os.path.join(app, 'icon.png')).convert('RGBA')
@@ -53,7 +52,7 @@ jobs:
               icon.save(os.path.join(d2, 'ic_launcher.png'))
               icon.save(os.path.join(d2, 'ic_launcher_round.png'))
           print('iconos generados OK')
-          EOF
+          PYEOF
           fi
 
       - name: Configurar firma en Gradle
