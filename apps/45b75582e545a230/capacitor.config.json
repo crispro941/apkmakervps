@@ -1,0 +1,7 @@
+{
+  "appId": "com.java21.app",
+  "appName": "Java21",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": { "allowMixedContent": true }
+}
