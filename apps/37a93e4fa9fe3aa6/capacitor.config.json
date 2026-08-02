@@ -1,0 +1,7 @@
+{
+  "appId": "com.prueba3.app",
+  "appName": "Prueba3",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": { "allowMixedContent": true }
+}
