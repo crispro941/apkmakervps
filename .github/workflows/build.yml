@@ -61,10 +61,10 @@ jobs:
           KS_PASS: ${{ secrets.KEYSTORE_PASS }}
           KS_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
         run: |
-          APP_DIR="${{ inputs.app_path }}"
-          KS_PASS="$KS_PASS" KS_ALIAS="$KS_ALIAS" python3 - <<'EOF'
+          APP_PATH="${{ inputs.app_path }}"
+          APP_PATH="$APP_PATH" KS_PASS="$KS_PASS" KS_ALIAS="$KS_ALIAS" python3 - <<'EOF'
           import os, re
-          app = os.environ['APP_DIR']
+          app = os.environ['APP_PATH']
           path = os.path.join(app, 'android', 'app', 'build.gradle')
           with open(path, 'r') as f:
               src = f.read()
