@@ -1,7 +1,0 @@
-{
-  "appId": "com.test.app",
-  "appName": "TestApp",
-  "webDir": "www",
-  "version": "1.0.0",
-  "android": { "allowMixedContent": true }
-}
