@@ -1,0 +1,7 @@
+{
+  "appId": "com.kotlinfix.app",
+  "appName": "KotlinFix",
+  "webDir": "www",
+  "version": "1.0.0",
+  "android": { "allowMixedContent": true }
+}
